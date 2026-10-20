@@ -1,9 +1,9 @@
 import java.util.Scanner;
 
 class ParcelSorting {
+
     public static void main(String[] args) {
 
-        Scanner sc = new Scanner(System.in);
         Scanner scanner = new Scanner(System.in);
 
         int accepted = 0;
@@ -137,9 +137,11 @@ class ParcelSorting {
                 longestSeriesZone = zone;
             }
 
-            System.out.printf("Opłata: %d,%02d zł%n",
+            System.out.printf(
+                    "Opłata: %d,%02d zł%n",
                     fee / 100,
-                    fee % 100);
+                    fee % 100
+            );
         }
 
         System.out.println();
@@ -151,19 +153,29 @@ class ParcelSorting {
         System.out.println("Łączna waga: " + totalWeight + " g");
 
         if (accepted > 0) {
-            System.out.println("Średnia waga: "
-                    + (totalWeight / accepted) + " g");
+            System.out.println(
+                    "Średnia waga: "
+                            + (totalWeight / accepted)
+                            + " g"
+            );
         }
 
-        System.out.printf("Łączna opłata: %d,%02d zł%n",
+        System.out.printf(
+                "Łączna opłata: %d,%02d zł%n",
                 totalFee / 100,
-                totalFee % 100);
+                totalFee % 100
+        );
 
-        System.out.println("Najcięższa paczka:");
-        System.out.println("Kod: " + heaviestCode);
-        System.out.println("Waga: " + heaviestWeight + " g");
+        if (accepted > 0) {
 
-        System.out.println("Najdłuższa seria:");
-        System.out.println(longestSeries + " x " + longestSeriesZone);
+            System.out.println("Najcięższa paczka:");
+            System.out.println("Kod: " + heaviestCode);
+            System.out.println("Waga: " + heaviestWeight + " g");
+
+            System.out.println("Najdłuższa seria:");
+            System.out.println(longestSeries + " x " + longestSeriesZone);
+        }
+
+        scanner.close();
     }
 }
