@@ -1,11 +1,8 @@
-import java.util.Scanner;
-
 public class CashRegister {
+
     public static void main(String[] args) {
 
-        Scanner scanner = new Scanner(System.in);
-
-        // Zadanie 1.
+        // Zadanie 1
 
         String rawShop = "  kurs market  ";
         String rawCustomer = "  anna   nowak  ";
@@ -16,26 +13,25 @@ public class CashRegister {
         char register = 'A';
         int receiptNumber = 0;
 
-        // Zadanie 2.
+        // Zadanie 2
 
-        String Code1 = rawCode1.trim().toUpperCase();
-        String Code2 = rawCode2.trim().toUpperCase();
-        String Code3 = rawCode3.trim().toUpperCase();
+        String code1 = rawCode1.trim().toUpperCase();
+        String code2 = rawCode2.trim().toUpperCase();
+        String code3 = rawCode3.trim().toUpperCase();
 
-        String[] split1 = Code1.split("-");
-        String[] split2 = Code2.split("-");
-        String[] split3 = Code3.split("-");
+        String[] split1 = code1.split("-");
+        String[] split2 = code2.split("-");
+        String[] split3 = code3.split("-");
 
-        int money1 = Integer.parseInt(split1[1]);
-        double zl1 = money1 / 100.0;
+        int price1 = Integer.parseInt(split1[1]);
+        int price2 = Integer.parseInt(split2[1]);
+        int price3 = Integer.parseInt(split3[1]);
 
-        int money2 = Integer.parseInt(split2[1]);
-        double zl2 = money2 / 100.0;
+        double zl1 = price1 / 100.0;
+        double zl2 = price2 / 100.0;
+        double zl3 = price3 / 100.0;
 
-        int money3 = Integer.parseInt(split3[1]);
-        double zl3 = money3 / 100.0;
-
-        // Zadanie 3.
+        // Zadanie 3
 
         String product1 = "Chleb razowy";
         int quantity1 = 2;
@@ -46,178 +42,157 @@ public class CashRegister {
         String product3 = "Kawa ziarnista";
         int quantity3 = 1;
 
-        double suma1 = Math.round(zl1 * 2 * 100.0) / 100.0;
-        double suma2 = Math.round(zl2 * 3 * 100.0) / 100.0;
-        double suma3 = Math.round(zl3 * 1 * 100.0) / 100.0;
+        double total1 = Math.round(zl1 * quantity1 * 100.0) / 100.0;
+        double total2 = Math.round(zl2 * quantity2 * 100.0) / 100.0;
+        double total3 = Math.round(zl3 * quantity3 * 100.0) / 100.0;
 
-        double sumaProduktow =
-                Math.round((suma1 + suma2 + suma3) * 100.0) / 100.0;
-
-        double vat =
-                Math.round(sumaProduktow * 0.23 * 100.0) / 100.0;
-
-        double brutto =
-                Math.round((sumaProduktow + vat) * 100.0) / 100.0;
-
-        double rabat =
-                Math.round(brutto * 0.07 * 100.0) / 100.0;
-
-        double finalCash =
-                Math.round((brutto - rabat) * 100.0) / 100.0;
-
-        String sellProduct1 =
-                product1 + "       " + Code1 + "     "
-                        + quantity1 + " x      "
-                        + String.format("%.2f", zl1).replace(".", ",")
-                        + " =     "
-                        + String.format("%.2f", suma1).replace(".", ",")
-                        + " zł";
-
-        String sellProduct2 =
-                product2 + "         " + Code2 + "     "
-                        + quantity2 + " x      "
-                        + String.format("%.2f", zl2).replace(".", ",")
-                        + " =     "
-                        + String.format("%.2f", suma2).replace(".", ",")
-                        + " zł";
-
-        String sellProduct3 =
-                product3 + "     " + Code3 + "     "
-                        + quantity3 + " x      "
-                        + String.format("%.2f", zl3).replace(".", ",")
-                        + " =     "
-                        + String.format("%.2f", suma3).replace(".", ",")
-                        + " zł";
-
-        // Zadanie 4.
+        // Zadanie 4
 
         String[] parts = rawCustomer.trim().split("\\s+");
 
-        String name =
+        String customerName =
                 parts[0].substring(0, 1).toUpperCase()
                         + parts[0].substring(1)
                         + " "
                         + parts[1].substring(0, 1).toUpperCase()
                         + parts[1].substring(1);
 
-        String Inicjaly = ""
-                + name.charAt(0)
-                + name.charAt(name.indexOf(" ") + 1);
+        String initials = ""
+                + customerName.charAt(0)
+                + customerName.charAt(customerName.indexOf(" ") + 1);
 
-        String card = Inicjaly + "-" + split1[1];
+        String loyaltyCard = initials + "-" + split1[1];
 
-        String newEmail = rawEmail.trim().toLowerCase();
+        String email = rawEmail.trim().toLowerCase();
 
         String maskedEmail =
-                newEmail.substring(0, 2)
+                email.substring(0, 2)
                         + "***"
-                        + newEmail.substring(newEmail.indexOf('@'));
+                        + email.substring(email.indexOf('@'));
 
-        // Zadanie 5.
+        // Zadanie 5
 
-        String headLine = rawShop.trim().toUpperCase();
+        String shopName = rawShop.trim().toUpperCase();
+
+        // Zadanie 7
+
+        double netTotal =
+                Math.round((total1 + total2 + total3) * 100.0) / 100.0;
+
+        double vat =
+                Math.round(netTotal * 0.23 * 100.0) / 100.0;
+
+        double grossTotal =
+                Math.round((netTotal + vat) * 100.0) / 100.0;
+
+        double discount =
+                Math.round(grossTotal * 0.07 * 100.0) / 100.0;
+
+        double amountToPay =
+                Math.round((grossTotal - discount) * 100.0) / 100.0;
+
+        // Zadanie 8
 
         int paidInCents = 10000;
         double cash = paidInCents / 100.0;
 
-        int itemCounter =
-                quantity1 + quantity2 + quantity3;
+        // Zadanie 9
 
-        // Cały kod po kolei zgodnie z przykładem
+        int itemCounter = 0;
+        itemCounter++;
+        itemCounter++;
+        itemCounter++;
 
         System.out.println(
-                headLine + " · kasa "
+                shopName
+                        + " · kasa "
                         + register
                         + " · paragon "
                         + ++receiptNumber);
 
         System.out.println(
-                name + " · karta "
-                        + card
+                customerName
+                        + " · karta "
+                        + loyaltyCard
                         + " · "
                         + maskedEmail);
 
         System.out.println();
 
-        System.out.println(sellProduct1);
-        System.out.println(sellProduct2);
-        System.out.println(sellProduct3);
+        System.out.printf("%-16s %-10s %d x %7s = %9s zł%n",
+                product1,
+                code1,
+                quantity1,
+                String.format("%.2f", zl1).replace(".", ","),
+                String.format("%.2f", total1).replace(".", ","));
 
-        System.out.println(
-                "RAZEM NETTO "
-                        + String.format("%.2f", sumaProduktow)
-                        .replace(".", ",")
-                        + " zł");
+        System.out.printf("%-16s %-10s %d x %7s = %9s zł%n",
+                product2,
+                code2,
+                quantity2,
+                String.format("%.2f", zl2).replace(".", ","),
+                String.format("%.2f", total2).replace(".", ","));
 
-        System.out.println(
-                "VAT 23% "
-                        + String.format("%.2f", vat)
-                        .replace(".", ",")
-                        + " zł");
+        System.out.printf("%-16s %-10s %d x %7s = %9s zł%n",
+                product3,
+                code3,
+                quantity3,
+                String.format("%.2f", zl3).replace(".", ","),
+                String.format("%.2f", total3).replace(".", ","));
 
-        System.out.println(
-                "RAZEM BRUTTO "
-                        + String.format("%.2f", brutto)
-                        .replace(".", ",")
-                        + " zł");
+        System.out.printf("RAZEM NETTO%31s zł%n",
+                String.format("%.2f", netTotal).replace(".", ","));
 
-        System.out.println(
-                "RABAT 7% "
-                        + String.format("%.2f", rabat)
-                        .replace(".", ",")
-                        + " zł");
+        System.out.printf("VAT 23%%%35s zł%n",
+                String.format("%.2f", vat).replace(".", ","));
 
-        System.out.println(
-                "DO ZAPŁATY "
-                        + String.format("%.2f", finalCash)
-                        .replace(".", ",")
-                        + " zł");
+        System.out.printf("RAZEM BRUTTO%30s zł%n",
+                String.format("%.2f", grossTotal).replace(".", ","));
 
-        if (cash >= finalCash) {
+        System.out.printf("RABAT 7%%%35s zł%n",
+                String.format("%.2f", discount).replace(".", ","));
 
-            double reszta =
-                    Math.round((cash - finalCash) * 100.0) / 100.0;
+        System.out.printf("DO ZAPŁATY%31s zł%n",
+                String.format("%.2f", amountToPay).replace(".", ","));
 
-            System.out.println(
-                    "RESZTA "
-                            + String.format("%.2f", reszta)
-                            .replace(".", ",")
-                            + " zł");
+        System.out.printf("GOTÓWKA%34s zł%n",
+                String.format("%.2f", cash).replace(".", ","));
 
-            int monety5zl = (int) (reszta / 5);
+        if (cash >= amountToPay) {
 
-            int grosze =
-                    (int) Math.round(
-                            (reszta - monety5zl * 5) * 100);
+            double change =
+                    Math.round((cash - amountToPay) * 100.0) / 100.0;
 
-            System.out.println(
-                    "Monet 5 zł: " + monety5zl);
+            System.out.printf("RESZTA%35s zł%n",
+                    String.format("%.2f", change).replace(".", ","));
+
+            int fiveZlotyCoins = (int) (change / 5);
+
+            int remainingGrosze =
+                    (int) Math.round((change - fiveZlotyCoins * 5) * 100);
 
             System.out.println(
-                    "Drobne poza nimi: "
-                            + grosze
+                    "monet 5 zł: "
+                            + fiveZlotyCoins
+                            + ", drobne poza nimi: "
+                            + remainingGrosze
                             + " gr");
-
-        } else {
-
-            double lackOfCash =
-                    Math.round((finalCash - cash) * 100.0) / 100.0;
-
-            System.out.println(
-                    "BRAKUJE "
-                            + String.format("%.2f", lackOfCash)
-                            .replace(".", ",")
-                            + " zł");
         }
 
-        System.out.println(
-                headLine + " · "
-                        + itemCounter
-                        + " pozycji · ");
+        System.out.println();
 
         System.out.println(
-                "Dziękujemy, Anna · następna kasa B");
+                String.format(
+                        "%s · %d pozycji · do zapłaty %s zł",
+                        shopName,
+                        itemCounter,
+                        String.format("%.2f", amountToPay).replace(".", ",")
+                ));
 
-        scanner.close();
+        System.out.println(
+                "Dziękujemy, "
+                        + parts[0].substring(0, 1).toUpperCase()
+                        + parts[0].substring(1)
+                        + " · następna kasa B");
     }
 }
