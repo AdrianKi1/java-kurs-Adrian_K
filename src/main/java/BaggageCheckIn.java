@@ -9,18 +9,6 @@ public class BaggageCheckIn {
         System.out.println("Podaj numer lotu:");
         String flightNumber = sc.nextLine().replace(" ", "").toUpperCase();
 
-        System.out.println("Podaj nazwisko pasażera:");
-        String passengerSurname = sc.nextLine().trim().toUpperCase();
-
-        System.out.println("Podaj klasę:");
-        String flightClass = sc.nextLine().trim().toUpperCase();
-
-        System.out.println("Podaj wagę bagażu (np. 23,40):");
-        String baggageInput = sc.nextLine().replace(" ", "");
-
-        System.out.println("Podaj wiek pasażera:");
-        int passengerAge = Integer.parseInt(sc.nextLine());
-
         if (flightNumber.isBlank()) {
             System.out.println("ODRZUCONO: pusty numer lotu");
             sc.close();
@@ -33,11 +21,20 @@ public class BaggageCheckIn {
             return;
         }
 
+        System.out.println("Podaj nazwisko pasażera:");
+        String passengerSurname = sc.nextLine().trim().toUpperCase();
+
         if (passengerSurname.isBlank()) {
             System.out.println("ODRZUCONO: puste nazwisko");
             sc.close();
             return;
         }
+
+        System.out.println("Podaj klasę:");
+        String flightClass = sc.nextLine().trim().toUpperCase();
+
+        System.out.println("Podaj wagę bagażu (np. 23,40):");
+        String baggageInput = sc.nextLine().replace(" ", "");
 
         if (!baggageInput.contains(",")) {
             System.out.println("ODRZUCONO: niepoprawny format wagi " + baggageInput);
@@ -56,13 +53,16 @@ public class BaggageCheckIn {
         int kilograms = Integer.parseInt(parts[0]);
         int hundreds = Integer.parseInt(parts[1]);
 
-        if (kilograms < 0 || kilograms > 60) {
+        int grams = kilograms * 1000 + hundreds * 10;
+
+        if (grams < 0 || grams > 60000) {
             System.out.println("ODRZUCONO: waga poza zakresem " + baggageInput);
             sc.close();
             return;
         }
 
-        int grams = kilograms * 1000 + hundreds * 10;
+        System.out.println("Podaj wiek pasażera:");
+        int passengerAge = Integer.parseInt(sc.nextLine());
 
         int baggageLimit = switch (flightClass) {
             case "ECONOMY" -> 23;
@@ -81,16 +81,14 @@ public class BaggageCheckIn {
         int limitGrams = baggageLimit * 1000;
         int overWeightGrams = Math.max(0, grams - limitGrams);
 
-        double overWeight = overWeightGrams / 1000.0;
-
         int fee;
         String cargoNote = "";
 
         if (overWeightGrams == 0) {
             fee = 0;
-        } else if (overWeight <= 5) {
+        } else if (overWeightGrams <= 5000) {
             fee = 50;
-        } else if (overWeight <= 15) {
+        } else if (overWeightGrams <= 15000) {
             fee = 150;
         } else {
             fee = 300;
@@ -120,7 +118,8 @@ public class BaggageCheckIn {
         System.out.printf(
                 "%-20s%s kg%n",
                 "NADWAGA:",
-                String.format("%.2f", overWeight).replace(".", ","));
+                String.format("%.2f", overWeightGrams / 1000.0)
+                        .replace(".", ","));
 
         System.out.printf("%-20s%d zł%n", "OPŁATA:", fee);
         System.out.printf("%-20s%s%n", "BOARDING:", boarding);
