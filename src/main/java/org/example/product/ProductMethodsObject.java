@@ -1,8 +1,12 @@
+package org.example.product;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 public class ProductMethodsObject {
+
     private static final double DEFAULT_VAT_RATE = 0.23;
     private static int createdCount;
 
@@ -11,7 +15,7 @@ public class ProductMethodsObject {
     private double netPrice;
     private final List<String> tags;
 
-    private ProductClass(String sku, String name, double netPrice, List<String> tags) {
+    private ProductMethodsObject(String sku, String name, double netPrice, List<String> tags) {
 
         if (sku == null || sku.trim().isEmpty()) {
             throw new IllegalArgumentException("Invalid sku");
@@ -33,8 +37,7 @@ public class ProductMethodsObject {
         createdCount++;
     }
 
-    // konstruktor kopiujący
-    public ProductClass(ProductClass other) {
+    public ProductMethodsObject(ProductMethodsObject other) {
         this(
                 other.sku,
                 other.name,
@@ -43,8 +46,8 @@ public class ProductMethodsObject {
         );
     }
 
-    public static ProductClass of(String sku, String name, double netPrice) {
-        return new ProductClass(
+    public static ProductMethodsObject of(String sku, String name, double netPrice) {
+        return new ProductMethodsObject(
                 sku,
                 name,
                 netPrice,
@@ -52,7 +55,7 @@ public class ProductMethodsObject {
         );
     }
 
-    public static ProductClass fromCsvLine(String line) {
+    public static ProductMethodsObject fromCsvLine(String line) {
 
         try {
             String[] parts = line.split(";");
@@ -61,7 +64,7 @@ public class ProductMethodsObject {
                 throw new IllegalArgumentException(line);
             }
 
-            return ProductClass.of(
+            return ProductMethodsObject.of(
                     parts[0],
                     parts[1],
                     Double.parseDouble(parts[2])
@@ -125,7 +128,7 @@ public class ProductMethodsObject {
         tags.add(tag.trim().toLowerCase());
     }
 
-    public ProductClass addTags(String... tags) {
+    public ProductMethodsObject addTags(String... tags) {
 
         for (String tag : tags) {
             addTag(tag);
@@ -145,7 +148,7 @@ public class ProductMethodsObject {
             return true;
         }
 
-        if (!(o instanceof ProductClass product)) {
+        if (!(o instanceof ProductMethodsObject product)) {
             return false;
         }
 
