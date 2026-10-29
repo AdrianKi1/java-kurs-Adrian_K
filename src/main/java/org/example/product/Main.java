@@ -3,28 +3,28 @@ package org.example.product;
 import java.util.HashSet;
 import java.util.Set;
 
-public class MainClass {
+public class Main {
 
     public static void main(String[] args) {
 
-        ProductClass product1 = ProductClass
+        Product product1 = Product
                 .of("ELEC-001", "Laptop", 3999.00)
                 .addTags("elektronika", "promocja");
 
-        ProductClass product2 =
-                ProductClass.fromCsvLine(
+        Product product2 =
+                Product.fromCsvLine(
                         "ELEC-002;Monitor;1499.00"
                 );
 
-        ProductClass product3 =
-                ProductClass.of(
+        Product product3 =
+                Product.of(
                         "ELEC-003",
                         "Klawiatura",
                         199.99
                 );
 
-        ProductClass copy =
-                new ProductClass(product1);
+        Product copy =
+                new Product(product1);
 
         System.out.println(product1);
         System.out.println(product2);
@@ -32,10 +32,10 @@ public class MainClass {
 
         System.out.println(
                 "Liczba utworzonych obiektów: "
-                        + ProductClass.getCreatedCount()
+                        + Product.getCreatedCount()
         );
 
-        Set<ProductClass> products =
+        Set<Product> products =
                 new HashSet<>();
 
         products.add(product1);
@@ -65,7 +65,7 @@ public class MainClass {
         );
 
         try {
-            ProductClass.fromCsvLine(
+            Product.fromCsvLine(
                     "ELEC-001;Laptop"
             );
         } catch (IllegalArgumentException e) {

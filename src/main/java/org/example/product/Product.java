@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-public class ProductClass {
+public class Product {
 
     private static final double DEFAULT_VAT_RATE = 0.23;
     private static int createdCount = 0;
@@ -15,7 +15,7 @@ public class ProductClass {
     private double netPrice;
     private final List<String> tags;
 
-    private ProductClass(String sku, String name, double netPrice, List<String> tags) {
+    private Product(String sku, String name, double netPrice, List<String> tags) {
 
         if (sku == null || sku.trim().isEmpty()) {
             throw new IllegalArgumentException("Invalid sku");
@@ -37,7 +37,7 @@ public class ProductClass {
         createdCount++;
     }
 
-    public ProductClass(ProductClass other) {
+    public Product(Product other) {
         this.sku = other.sku;
         this.name = other.name;
         this.netPrice = other.netPrice;
@@ -46,8 +46,8 @@ public class ProductClass {
         createdCount++;
     }
 
-    public static ProductClass of(String sku, String name, double netPrice) {
-        return new ProductClass(
+    public static Product of(String sku, String name, double netPrice) {
+        return new Product(
                 sku,
                 name,
                 netPrice,
@@ -55,7 +55,7 @@ public class ProductClass {
         );
     }
 
-    public static ProductClass fromCsvLine(String line) {
+    public static Product fromCsvLine(String line) {
 
         try {
             String[] parts = line.split(";");
@@ -64,7 +64,7 @@ public class ProductClass {
                 throw new IllegalArgumentException(line);
             }
 
-            return ProductClass.of(
+            return Product.of(
                     parts[0],
                     parts[1],
                     Double.parseDouble(parts[2])
@@ -128,7 +128,7 @@ public class ProductClass {
         tags.add(tag.trim().toLowerCase());
     }
 
-    public ProductClass addTags(String... tags) {
+    public Product addTags(String... tags) {
 
         for (String tag : tags) {
             addTag(tag);
@@ -148,11 +148,11 @@ public class ProductClass {
             return true;
         }
 
-        if (!(o instanceof ProductClass)) {
+        if (!(o instanceof Product)) {
             return false;
         }
 
-        ProductClass that = (ProductClass) o;
+        Product that = (Product) o;
 
         return sku.equals(that.sku);
     }
