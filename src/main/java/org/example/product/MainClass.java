@@ -1,40 +1,78 @@
 package org.example.product;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class MainClass {
+
     public static void main(String[] args) {
-        ProductClass productClass = new ProductClass(
-                "elec-001",
-                "Laptop",
-                4000,
-                new ArrayList<>(List.of("elektronika"))
+
+        ProductClass product1 = ProductClass
+                .of("ELEC-001", "Laptop", 3999.00)
+                .addTags("elektronika", "promocja");
+
+        ProductClass product2 =
+                ProductClass.fromCsvLine(
+                        "ELEC-002;Monitor;1499.00"
+                );
+
+        ProductClass product3 =
+                ProductClass.of(
+                        "ELEC-003",
+                        "Klawiatura",
+                        199.99
+                );
+
+        ProductClass copy =
+                new ProductClass(product1);
+
+        System.out.println(product1);
+        System.out.println(product2);
+        System.out.println(product3);
+
+        System.out.println(
+                "Liczba utworzonych obiektów: "
+                        + ProductClass.getCreatedCount()
         );
-        System.out.println(productClass);
 
-        productClass.applyDiscount(10);
-        System.out.println("Po rabacie: " + productClass.getNetPrice());
+        Set<ProductClass> products =
+                new HashSet<>();
 
-        productClass.raisePriceBy(10);
-        System.out.println("Po podwyżce: " + productClass.getNetPrice());
+        products.add(product1);
+        products.add(product2);
+        products.add(product3);
+
+        System.out.println(
+                "Rozmiar zbioru: "
+                        + products.size()
+        );
+
+        products.add(copy);
+
+        System.out.println(
+                "Rozmiar po dodaniu kopii: "
+                        + products.size()
+        );
+
+        System.out.println(
+                "equals(): "
+                        + product1.equals(copy)
+        );
+
+        System.out.println(
+                "== : "
+                        + (product1 == copy)
+        );
 
         try {
-            productClass.getTags().add("promocja");
-        } catch (Exception e) {
-            System.out.println("Nie można modyfikować listy tagów");
-        }
-
-        try {
-            new ProductClass("", "Laptop", 1000, new ArrayList<>());
+            ProductClass.fromCsvLine(
+                    "ELEC-001;Laptop"
+            );
         } catch (IllegalArgumentException e) {
-            System.out.println("Pusty SKU odrzucony");
-        }
-
-        try {
-            new ProductClass("ABC", "", 1000, new ArrayList<>());
-        } catch (IllegalArgumentException e) {
-            System.out.println("Ujemna cena odrzucona");
+            System.out.println(
+                    "Błędny CSV: "
+                            + e.getMessage()
+            );
         }
     }
 }
