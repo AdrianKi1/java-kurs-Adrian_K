@@ -15,4 +15,8 @@ public class FoodProduct extends Product {
     public double getShippingCost() {
         return 29.99;
     }
+    @Override
+    public String getCategory() {
+        return "Żywotność";
+    }
 }

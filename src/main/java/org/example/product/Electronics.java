@@ -21,5 +21,9 @@ public class Electronics extends Product {
         }
         return 19.99;
     }
+    @Override
+    public String getCategory() {
+        return "Elektronika";
+    }
 
 }

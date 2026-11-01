@@ -16,4 +16,8 @@ public class DigitalProduct extends Product {
     public double getShippingCost() {
         return 0;
     }
+    @Override
+    public String getCategory() {
+        return "Produkt cyfrowy";
+    }
 }
