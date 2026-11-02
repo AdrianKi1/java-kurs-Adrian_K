@@ -15,7 +15,7 @@ public class Product {
     private double netPrice;
     private final List<String> tags;
 
-    private Product(String sku, String name, double netPrice, List<String> tags) {
+    protected Product(String sku, String name, double netPrice, List<String> tags) {
 
         if (sku == null || sku.trim().isEmpty()) {
             throw new IllegalArgumentException("Invalid sku");
@@ -93,6 +93,16 @@ public class Product {
 
     public double getGrossPrice() {
         return netPrice * (1 + DEFAULT_VAT_RATE);
+    }
+
+    public String getDescription() {
+        return String.format("%s - %.2f zł",  getName(), getNetPrice());
+    }
+    public double getShippingCost() {
+        return 19.99;
+    }
+    public final double getTotalPrice() {
+        return getNetPrice()  + getShippingCost();
     }
 
     public void raisePriceBy(double percent) {
