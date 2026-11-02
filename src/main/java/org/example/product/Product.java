@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-public class Product {
+public abstract class Product {
 
     private static final double DEFAULT_VAT_RATE = 0.23;
     private static int createdCount = 0;
@@ -37,43 +37,6 @@ public class Product {
         createdCount++;
     }
 
-    public Product(Product other) {
-        this.sku = other.sku;
-        this.name = other.name;
-        this.netPrice = other.netPrice;
-        this.tags = new ArrayList<>(other.tags);
-
-        createdCount++;
-    }
-
-    public static Product of(String sku, String name, double netPrice) {
-        return new Product(
-                sku,
-                name,
-                netPrice,
-                new ArrayList<>()
-        );
-    }
-
-    public static Product fromCsvLine(String line) {
-
-        try {
-            String[] parts = line.split(";");
-
-            if (parts.length != 3) {
-                throw new IllegalArgumentException(line);
-            }
-
-            return Product.of(
-                    parts[0],
-                    parts[1],
-                    Double.parseDouble(parts[2])
-            );
-
-        } catch (Exception e) {
-            throw new IllegalArgumentException(line);
-        }
-    }
 
     public static int getCreatedCount() {
         return createdCount;
@@ -96,13 +59,17 @@ public class Product {
     }
 
     public String getDescription() {
-        return String.format("%s - %.2f zł",  getName(), getNetPrice());
+        return String.format("%s - %.2f zł", getName(), getNetPrice());
     }
-    public double getShippingCost() {
-        return 19.99;
-    }
+
+    public abstract double getShippingCost();
+//        return 19.99;
+//    }
+
+    public abstract String getCategory();
+
     public final double getTotalPrice() {
-        return getNetPrice()  + getShippingCost();
+        return getNetPrice() + getShippingCost();
     }
 
     public void raisePriceBy(double percent) {
@@ -181,5 +148,14 @@ public class Product {
                 netPrice,
                 getGrossPrice()
         );
+    }
+
+    public final String getLabel() {
+        return String.format(
+                "%s [%s] - %.2f zł (z wysyłką %.2f zł)",
+                getName(),
+                getCategory(),
+                getNetPrice(),
+                getTotalPrice());
     }
 }
