@@ -1,5 +1,6 @@
 package org.example.product;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class FoodProduct extends Product implements Perishable {
@@ -22,6 +23,7 @@ public class FoodProduct extends Product implements Perishable {
 
     @Override
     public boolean isExpired() {
-        return false;
+        LocalDate expiry = LocalDate.parse(expiryDate);
+        return expiry.isBefore(LocalDate.now());
     }
 }
