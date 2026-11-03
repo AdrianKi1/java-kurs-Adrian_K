@@ -1,8 +1,9 @@
 package org.example.product;
 
+import java.time.LocalDate;
 import java.util.List;
 
-public class FoodProduct extends Product {
+public class FoodProduct extends Product implements Perishable {
     private String expiryDate;
 
     public FoodProduct(String sku, String name, double netPrice, List<String> tags, String expiryDate) {
@@ -17,6 +18,12 @@ public class FoodProduct extends Product {
     }
     @Override
     public String getCategory() {
-        return "Żywotność";
+        return "Żywność";
+    }
+
+    @Override
+    public boolean isExpired() {
+        LocalDate expiry = LocalDate.parse(expiryDate);
+        return expiry.isBefore(LocalDate.now());
     }
 }
