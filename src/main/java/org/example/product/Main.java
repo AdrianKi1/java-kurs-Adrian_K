@@ -1,13 +1,17 @@
 package org.example.product;
 
+import java.awt.font.FontRenderContext;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.EnumMap;
 
 public class Main {
 
     public static void main(String[] args) {
+
+
 
         Product laptop = (new Electronics(
                 "E001",
@@ -98,5 +102,43 @@ public class Main {
 
         System.out.printf("Suma cen produktów: %.2f zł%n",
                 Utils.sumPrices(productWarehouse.findAll()));
+
+        System.out.println();
+        List<ProductDTO> csvProducts = List.of(ProductDTO.fromCsLine("ELEC-001;Laptop;3999.00;ELECTRONICS"),
+                ProductDTO.fromCsLine("ELEC-002;Monitor;1499.00;ELECTRONICS"),
+                ProductDTO.fromCsLine("FOOD-001;Mleko;4.99;FOOD"),
+                ProductDTO.fromCsLine("BOOK-001;Java Podstawy;89.99;BOOKS"),
+                ProductDTO.fromCsLine("ALC-001;Piwo;6.99;ALCOHOL"));
+
+        System.out.println("=== RAPORT CEN BRUTTO ===");
+        for (ProductDTO product : csvProducts) {
+            System.out.printf("%s -> %.2f zł%n", product.name(), product.grossPrice());
+        }
+        EnumMap<Category, Integer> categoryCount = new EnumMap<>(Category.class);
+
+        for (ProductDTO product : csvProducts) {
+            Category category = product.category();
+
+            categoryCount.put(category,categoryCount.getOrDefault(category, 0) + 1);
+        }
+
+        System.out.println();
+        System.out.println("=== SZTUKI W KATEGORIACH ===");
+
+        for (Category category : categoryCount.keySet()) {
+            System.out.println(category.getDisplayName() + ":" + categoryCount.get(category));
+
+        }
+        System.out.println();
+        System.out.println("=== PRODUKTY WYMAGAJĄCE WERYFIKACJI WIEKU ===");
+        for (ProductDTO product : csvProducts) {
+            if (product.category().isRequiresAgeVerification()) {
+                System.out.println(product.name());
+            }
+        }
+        Receipt receipt = new Receipt("CART-001", csvProducts);
+        System.out.println();
+        System.out.println("=== RECEIPT ===");
+        System.out.println(receipt);
     }
 }
