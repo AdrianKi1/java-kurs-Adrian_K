@@ -2,33 +2,35 @@ package org.example.product;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-public class Warehouse {
-    private final List<Product> products = new ArrayList<>();
+public class Warehouse <T extends Identifiable<String>> {
 
-    public void add(Product product) {
-        products.add(product);
+    private final List<T> items = new ArrayList<>();
+
+    public void add(T item) {
+        items.add(item);
     }
     public int count() {
-        return products.size();
+        return items.size();
     }
-    public Product findBySku(String sku) {
-        for (Product product : products) {
-            if (product.getSku().equals(sku)) {
-                return product;
+    public Optional<T> findById(String id) {
+        for (T item : items) {
+            if (item.getId().equals(id)) {
+                return Optional.of(item);
             }
         }
-        return null;
+        return Optional.empty();
     }
-    public List<Product> getAll() {
-        return new ArrayList<>(products);
+    public List<T> findAll() {
+        return new ArrayList<>(items);
     }
-    public double getTotalValue() {
-        double sum = 0;
-
-        for (Product product : products) {
-            sum += product.getTotalPrice();
+    public void remove(String id) {
+        for (int i = 0; i < items.size(); i++) {
+            if (items.get(i).getId().equals(id)) {
+                items.remove(i);
+                break;
+            }
         }
-        return sum;
     }
 }
