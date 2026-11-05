@@ -1,5 +1,7 @@
 package org.example.product;
 
+import jdk.swing.interop.SwingInterOpUtils;
+
 import java.awt.font.FontRenderContext;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -140,5 +142,21 @@ public class Main {
         System.out.println();
         System.out.println("=== RECEIPT ===");
         System.out.println(receipt);
+
+        System.out.println();
+
+
+        System.out.println("=== WALIDACJA PRODUKTÓW ===");
+        ProductDTO poprawny = new ProductDTO("ELEC-001", "Laptop", 3999.99, Category.ELECTRONICS);
+        System.out.println();
+        System.out.println("=== POPRAWNY PRODUKT===");
+        System.out.println(ProductValidator.validate(poprawny));
+
+
+        ProductDTO bledny = new ProductDTO("", "Bardzo długa nazwaaaaaaaaaaa produktu", -10,
+                Category.ELECTRONICS);
+        System.out.println();
+        System.out.println("=== BŁĘDNY PRODUKT ===");
+        System.out.println(ProductValidator.validate(bledny));
     }
 }

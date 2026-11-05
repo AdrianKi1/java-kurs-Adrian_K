@@ -1,17 +1,11 @@
 package org.example.product;
 
-public record ProductDTO(String sku, String name, double netPrice, Category category) {
+public record ProductDTO(@NotBlank String sku, @NotBlank @MaxLenght(20) String name,
+                         @Positive double netPrice, Category category) {
     public ProductDTO {
-        if (sku == null || sku.trim().isEmpty()) {
-            throw new IllegalArgumentException("Invalid sku");
+        if (sku != null) {
+            sku= sku.trim().toUpperCase();
         }
-        if (name == null || name.trim().isEmpty()) {
-            throw new IllegalArgumentException("Invalid name");
-        }
-        if (netPrice <= 0) {
-            throw new IllegalArgumentException("Invalid price");
-        }
-        sku= sku.trim().toUpperCase();
     }
     public double grossPrice() {
         return category.calculateGross(netPrice);
