@@ -40,11 +40,12 @@ public class Main {
                 List.of("gra"),
                 "https://download.com"));
 
+        Product[] products = {laptop, monitor, mleko, jogurt, minectraft};
+
         ShoppingCart cart1 = new ShoppingCart(new NoDiscount());
         ShoppingCart cart2 = new ShoppingCart(new PercentageDiscount(10));
         ShoppingCart cart3 = new ShoppingCart(new ElectronicsOnlyDiscount());
 
-        Product[] products =  {laptop, monitor, mleko, jogurt, minectraft};
 
         for (Product product : products) {
             cart1.add(product);
@@ -63,5 +64,39 @@ public class Main {
 
         System.out.println("=== RABAT TYLKO DLA ELEKTRONIKI ===");
         System.out.println(cart3.getReceipt());
+
+        Warehouse<Product> productWarehouse = new Warehouse<>();
+
+        productWarehouse.add(laptop);
+        productWarehouse.add(monitor);
+        productWarehouse.add(mleko);
+        productWarehouse.add(jogurt);
+        productWarehouse.add(minectraft);
+
+        System.out.println();
+        System.out.println("=== MAGAZYN PRODUKTÓW ===");
+
+        System.out.println("Liczba produktów: " +  productWarehouse.count());
+
+        System.out.println(productWarehouse.findById("E001"));
+
+        Warehouse<Customer> customerWarehouse = new Warehouse<>();
+
+        customerWarehouse.add(new Customer("C001", "Jan Kowalski"));
+        customerWarehouse.add(new Customer("C002", "Anna Nowak"));
+
+        System.out.println();
+        System.out.println("=== MAGAZYN KLIENTÓW ===");
+
+        System.out.println("Liczba klientów: " + customerWarehouse.count());
+        System.out.println(customerWarehouse.findById("C001"));
+
+        List<Integer> numbers = List.of(5, 2, 8, 1);
+
+        System.out.println();
+        System.out.println("Posortowana lista: " + Utils.sortedCopy(numbers));
+
+        System.out.printf("Suma cen produktów: %.2f zł%n",
+                Utils.sumPrices(productWarehouse.findAll()));
     }
 }

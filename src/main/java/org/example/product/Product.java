@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-public abstract class Product {
+public abstract class Product implements Identifiable<String> {
 
     private static final double DEFAULT_VAT_RATE = 0.23;
     private static int createdCount = 0;
@@ -157,5 +157,9 @@ public abstract class Product {
                 getCategory(),
                 getNetPrice(),
                 getTotalPrice());
+    }
+    @Override
+    public String getId() {
+        return getSku();
     }
 }
