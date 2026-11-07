@@ -1,6 +1,6 @@
 package org.example.product;
 
-public record ProductDTO(@NotBlank String sku, @NotBlank @MaxLenght(20) String name,
+public record ProductDTO(@NotBlank String sku, @NotBlank @MaxLength(20) String name,
                          @Positive double netPrice, Category category) {
     public ProductDTO {
         if (sku != null) {
