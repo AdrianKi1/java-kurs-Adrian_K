@@ -11,6 +11,9 @@ public record ProductDTO(String sku, String name, double netPrice, Category cate
         if (netPrice <= 0) {
             throw new IllegalArgumentException("Invalid price");
         }
+        if (category == null) {
+            throw new IllegalArgumentException("Invalid category");
+        }
         sku= sku.trim().toUpperCase();
     }
     public double grossPrice() {
@@ -20,7 +23,7 @@ public record ProductDTO(String sku, String name, double netPrice, Category cate
     public static ProductDTO from(Product p) {
         return new ProductDTO(p.getSku(), p.getName(), p.getNetPrice(), p.getCategory());
     }
-    public static ProductDTO fromCsLine(String line) {
+    public static ProductDTO fromCsvLine(String line) {
         String[] data = line.split(";");
 
         return new ProductDTO(data[0], data[1], Double.parseDouble(data[2]), Category.valueOf(data[3]));

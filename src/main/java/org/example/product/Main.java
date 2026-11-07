@@ -104,11 +104,11 @@ public class Main {
                 Utils.sumPrices(productWarehouse.findAll()));
 
         System.out.println();
-        List<ProductDTO> csvProducts = List.of(ProductDTO.fromCsLine("ELEC-001;Laptop;3999.00;ELECTRONICS"),
-                ProductDTO.fromCsLine("ELEC-002;Monitor;1499.00;ELECTRONICS"),
-                ProductDTO.fromCsLine("FOOD-001;Mleko;4.99;FOOD"),
-                ProductDTO.fromCsLine("BOOK-001;Java Podstawy;89.99;BOOKS"),
-                ProductDTO.fromCsLine("ALC-001;Piwo;6.99;ALCOHOL"));
+        List<ProductDTO> csvProducts = List.of(ProductDTO.fromCsvLine("ELEC-001;Laptop;3999.00;ELECTRONICS"),
+                ProductDTO.fromCsvLine("ELEC-002;Monitor;1499.00;ELECTRONICS"),
+                ProductDTO.fromCsvLine("FOOD-001;Mleko;4.99;FOOD"),
+                ProductDTO.fromCsvLine("BOOK-001;Java Podstawy;89.99;BOOKS"),
+                ProductDTO.fromCsvLine("ALC-001;Piwo;6.99;ALCOHOL"));
 
         System.out.println("=== RAPORT CEN BRUTTO ===");
         for (ProductDTO product : csvProducts) {
