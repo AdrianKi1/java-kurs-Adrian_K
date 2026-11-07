@@ -7,7 +7,7 @@ public class Electronics extends Product {
     private int warrantyMonths;
 
     public Electronics(String sku, String name, double netPrice, List<String> tags, int warrantyMonths) {
-        super(sku, name, netPrice, tags);
+        super(sku, name, netPrice, tags, Category.ELECTRONICS);
         this.warrantyMonths = warrantyMonths;
     }
 
@@ -20,10 +20,6 @@ public class Electronics extends Product {
             return 0;
         }
         return 19.99;
-    }
-    @Override
-    public String getCategory() {
-        return "Elektronika";
     }
 
 }
