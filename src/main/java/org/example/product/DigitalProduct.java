@@ -7,7 +7,7 @@ public class DigitalProduct extends Product {
     private String downloadUrl;
 
     public DigitalProduct(String sku, String name, double netPrice, List<String> tags, String downloadUrl) {
-        super(sku, name, netPrice, tags);
+        super(sku, name, netPrice, tags, Category.BOOKS);
         this.downloadUrl = downloadUrl;
     }
     public String getDescription() {
@@ -15,9 +15,5 @@ public class DigitalProduct extends Product {
     }
     public double getShippingCost() {
         return 0;
-    }
-    @Override
-    public String getCategory() {
-        return "Produkt cyfrowy";
     }
 }

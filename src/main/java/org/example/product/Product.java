@@ -14,8 +14,9 @@ public abstract class Product implements Identifiable<String> {
     private final String name;
     private double netPrice;
     private final List<String> tags;
+    private final Category category;
 
-    protected Product(String sku, String name, double netPrice, List<String> tags) {
+    protected Product(String sku, String name, double netPrice, List<String> tags, Category category) {
 
         if (sku == null || sku.trim().isEmpty()) {
             throw new IllegalArgumentException("Invalid sku");
@@ -33,6 +34,7 @@ public abstract class Product implements Identifiable<String> {
         this.name = name.trim();
         this.netPrice = netPrice;
         this.tags = new ArrayList<>(tags);
+        this.category = category;
 
         createdCount++;
     }
@@ -62,11 +64,13 @@ public abstract class Product implements Identifiable<String> {
         return String.format("%s - %.2f zł", getName(), getNetPrice());
     }
 
+
     public abstract double getShippingCost();
 //        return 19.99;
 //    }
-
-    public abstract String getCategory();
+    public Category getCategory() {
+        return category;
+    }
 
     public final double getTotalPrice() {
         return getNetPrice() + getShippingCost();
@@ -154,12 +158,13 @@ public abstract class Product implements Identifiable<String> {
         return String.format(
                 "%s [%s] - %.2f zł (z wysyłką %.2f zł)",
                 getName(),
-                getCategory(),
+                getCategory().getDisplayName(),
                 getNetPrice(),
                 getTotalPrice());
     }
     @Override
     public String getId() {
         return getSku();
+
     }
 }
