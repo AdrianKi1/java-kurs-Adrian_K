@@ -11,10 +11,10 @@ public class Utils {
         return copy;
     }
 
-    public static double sumPrices(List<? extends Product> products) {
-        double sum = 0;
+    public static Money sumPrices(List<? extends Product> products) {
+        Money sum = Money.zero("PLN");
         for (Product product : products) {
-            sum += product.getTotalPrice();
+            sum = sum.add(product.getTotalPrice());
         }
         return sum;
     }

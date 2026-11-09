@@ -9,12 +9,12 @@ public class FixedAmountDiscount implements DiscountPolicy {
     }
 
     @Override
-    public double apply(double price) {
-        return Math.max(price - amount, 0.01);
+    public Money apply(Money price) {
+        return price;
     }
 
     @Override
     public String getName() {
-        return amount + "zł";
+        return amount + " zł";
     }
 }

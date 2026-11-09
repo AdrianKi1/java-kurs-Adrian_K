@@ -9,8 +9,8 @@ public class PercentageDiscount implements DiscountPolicy {
     }
 
     @Override
-    public double apply(double price) {
-        return price - (price * percent / 100);
+    public Money apply(Money price) {
+        return price;
     }
 
     @Override
