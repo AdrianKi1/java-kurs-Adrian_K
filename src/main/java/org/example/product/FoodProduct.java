@@ -6,15 +6,15 @@ import java.util.List;
 public class FoodProduct extends Product implements Perishable {
     private String expiryDate;
 
-    public FoodProduct(String sku, String name, double netPrice, List<String> tags, String expiryDate) {
+    public FoodProduct(String sku, String name, Money netPrice, List<String> tags, String expiryDate) {
         super(sku, name, netPrice, tags, Category.FOOD);
         this.expiryDate = expiryDate;
     }
     public String getDescription() {
         return super.getDescription() + " (termin: " + expiryDate + ")";
     }
-    public double getShippingCost() {
-        return 29.99;
+    public Money getShippingCost() {
+        return Money.of("29.99", "PLN");
     }
 
     @Override

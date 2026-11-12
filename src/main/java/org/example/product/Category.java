@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public enum Category {
+
     ELECTRONICS("Elektronika", 0.23, false),
     FOOD("Spożywcze", 0.05, false),
     ALCOHOL("Alkohol", 0.23, true),
@@ -18,6 +19,8 @@ public enum Category {
         this.vatRate = vatRate;
         this.requiresAgeVerification = requiresAgeVerification;
     }
+
+
     public String getDisplayName() {
         return displayName;
     }

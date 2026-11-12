@@ -6,7 +6,7 @@ public class Electronics extends Product {
 
     private int warrantyMonths;
 
-    public Electronics(String sku, String name, double netPrice, List<String> tags, int warrantyMonths) {
+    public Electronics(String sku, String name, Money netPrice, List<String> tags, int warrantyMonths) {
         super(sku, name, netPrice, tags, Category.ELECTRONICS);
         this.warrantyMonths = warrantyMonths;
     }
@@ -15,11 +15,11 @@ public class Electronics extends Product {
     public String getDescription() {
         return super.getDescription() + " (gwarancja " + warrantyMonths + " mies.)";
     }
-    public double getShippingCost() {
-        if (getNetPrice() > 2000) {
-            return 0;
+    public Money getShippingCost() {
+        if (getNetPrice().isGreaterThan(Money.of("2000", "PLN"))) {
+            return Money.zero("PLN");
         }
-        return 19.99;
+        return Money.of("19.99", "PLN");
     }
 
 }

@@ -1,7 +1,5 @@
 package org.example.product;
 
-import jdk.swing.interop.SwingInterOpUtils;
-
 import java.awt.font.FontRenderContext;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -18,31 +16,31 @@ public class Main {
         Product laptop = (new Electronics(
                 "E001",
                 "Laptop",
-                3999.99,
+                Money.of("3999.99", "PLN"),
                 List.of("elektronika"),
                 24));
         Product monitor = (new Electronics(
                 "E002",
                 "Monitor",
-                1499.00,
+                Money.of("1499.00", "PLN"),
                 List.of("elektronika"),
                 36));
         Product mleko = (new FoodProduct(
                 "F001",
                 "Mleko",
-                4.99,
+                Money.of("4.99", "PLN"),
                 List.of("nabiał"),
                 "20-08-2026"));
         Product jogurt = (new FoodProduct(
                 "F002",
                 "Jogurt",
-                3.99,
+                Money.of("3.99", "PLN"),
                 List.of("nabiał"),
                 "01-09-2026"));
         Product minectraft = (new DigitalProduct(
                 "D001",
                 "Minecraft",
-                99.99,
+                Money.of("99.99", "PLN"),
                 List.of("gra"),
                 "https://download.com"));
 
@@ -102,7 +100,7 @@ public class Main {
         System.out.println();
         System.out.println("Posortowana lista: " + Utils.sortedCopy(numbers));
 
-        System.out.printf("Suma cen produktów: %.2f zł%n",
+        System.out.printf("Suma cen produktów: " +
                 Utils.sumPrices(productWarehouse.findAll()));
 
         System.out.println();
@@ -114,7 +112,7 @@ public class Main {
 
         System.out.println("=== RAPORT CEN BRUTTO ===");
         for (ProductDTO product : csvProducts) {
-            System.out.printf("%s -> %.2f zł%n", product.name(), product.grossPrice());
+            System.out.printf("%s -> %s%n", product.name(), product.grossPrice());
         }
         EnumMap<Category, Integer> categoryCount = new EnumMap<>(Category.class);
 
@@ -147,16 +145,30 @@ public class Main {
 
 
         System.out.println("=== WALIDACJA PRODUKTÓW ===");
-        ProductDTO poprawny = new ProductDTO("ELEC-001", "Laptop", 3999.99, Category.ELECTRONICS);
+        ProductDTO poprawny = new ProductDTO("ELEC-001", "Laptop", Money.of("3999.99", "PLN"),
+                Category.ELECTRONICS);
         System.out.println();
         System.out.println("=== POPRAWNY PRODUKT===");
         System.out.println(ProductValidator.validate(poprawny));
 
 
-        ProductDTO bledny = new ProductDTO("", "Bardzo długa nazwaaaaaaaaaaa produktu", -10,
+        ProductDTO bledny = new ProductDTO("", "Bardzo długa nazwaaaaaaaaaaa produktu", Money.of("0",
+                "PLN"),
                 Category.ELECTRONICS);
         System.out.println();
         System.out.println("=== BŁĘDNY PRODUKT ===");
         System.out.println(ProductValidator.validate(bledny));
+
+        Invoice invoice = new Invoice();
+
+        invoice.addLine(new InvoiceLine(csvProducts.get(0), 1));
+        invoice.addLine(new InvoiceLine(csvProducts.get(1), 2));
+        invoice.addLine(new InvoiceLine(csvProducts.get(2), 5));
+        invoice.addLine(new InvoiceLine(csvProducts.get(3), 1));
+        invoice.addLine(new InvoiceLine(csvProducts.get(4), 10));
+
+        System.out.println();
+        System.out.println(invoice.render());
     }
+
 }
