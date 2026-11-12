@@ -88,13 +88,9 @@ public abstract class Product implements Identifiable<String> {
         if (percent <= 0 || percent >= 100) {
             throw new IllegalArgumentException();
         }
-
-        Money discount = netPrice.multiply((int) percent);
-
-       discount = new Money(discount.amount().divide(java.math.BigDecimal.valueOf(100),
-               2,
-               RoundingMode.HALF_UP), discount.currency());
-       netPrice = netPrice.subtract(discount);
+        Money increased = netPrice.applyPercent(percent);
+        Money discount =increased.subtract(netPrice);
+        netPrice = netPrice.subtract(discount);
     }
 
     public void addTag(String tag) {

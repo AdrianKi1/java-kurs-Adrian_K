@@ -10,7 +10,9 @@ public class PercentageDiscount implements DiscountPolicy {
 
     @Override
     public Money apply(Money price) {
-        return price;
+        Money gross = price.applyPercent(percent);
+        Money discount = gross.subtract(price);
+        return price.subtract(discount);
     }
 
     @Override

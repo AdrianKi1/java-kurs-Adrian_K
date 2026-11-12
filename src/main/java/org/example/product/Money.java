@@ -5,9 +5,8 @@ import com.sun.nio.sctp.NotificationHandler;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-public record Money(
-        BigDecimal amount,
-        String currency) {
+public record Money(BigDecimal amount, String currency) {
+
     public Money add(Money other) {
         if (!currency.equals(other.currency)) {
             throw new IllegalArgumentException("Different currencies");
@@ -49,7 +48,7 @@ public record Money(
 
     @Override
     public String toString() {
-        String value = String.format("%,.2f", amount.doubleValue());
+        String value = amount.toPlainString().replace(".", ",");
         return value + " " + currency;
     }
 

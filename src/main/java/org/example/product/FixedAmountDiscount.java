@@ -10,7 +10,8 @@ public class FixedAmountDiscount implements DiscountPolicy {
 
     @Override
     public Money apply(Money price) {
-        return price;
+        Money discount = Money.of(String.valueOf(amount), "PLN");
+        return price.subtract(discount);
     }
 
     @Override
