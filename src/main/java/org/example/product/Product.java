@@ -57,7 +57,7 @@ public abstract class Product implements Identifiable<String> {
     }
 
     public double getGrossPrice() {
-        return netPrice * (1 + DEFAULT_VAT_RATE);
+        return category.calculateGross(netPrice);
     }
 
     public String getDescription() {

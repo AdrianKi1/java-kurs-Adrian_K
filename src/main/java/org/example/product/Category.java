@@ -5,7 +5,7 @@ import java.util.List;
 
 public enum Category {
     ELECTRONICS("Elektronika", 0.23, false),
-    FOOD("Spożywcze", 0.25, false),
+    FOOD("Spożywcze", 0.05, false),
     ALCOHOL("Alkohol", 0.23, true),
     BOOKS("Książki", 0.05, false);
 

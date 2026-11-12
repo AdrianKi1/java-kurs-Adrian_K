@@ -6,6 +6,7 @@ public record ProductDTO(@NotBlank String sku, @NotBlank @MaxLength(20) String n
         if (sku != null) {
             sku= sku.trim().toUpperCase();
         }
+
     }
     public double grossPrice() {
         return category.calculateGross(netPrice);
@@ -14,7 +15,7 @@ public record ProductDTO(@NotBlank String sku, @NotBlank @MaxLength(20) String n
     public static ProductDTO from(Product p) {
         return new ProductDTO(p.getSku(), p.getName(), p.getNetPrice(), p.getCategory());
     }
-    public static ProductDTO fromCsLine(String line) {
+    public static ProductDTO fromCsvLine(String line) {
         String[] data = line.split(";");
 
         return new ProductDTO(data[0], data[1], Double.parseDouble(data[2]), Category.valueOf(data[3]));
