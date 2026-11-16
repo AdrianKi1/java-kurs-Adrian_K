@@ -11,40 +11,50 @@ public class Main {
 
     public static void main(String[] args) {
 
-
-
+    Address krakow = new Address("Długa 1", "Kraków", "30-001");
+    Supplier xkom = new Supplier("X-KOM", krakow, "kontakt@x-kom.pl");
+    Address warszawa = new Address("Prosta 10", "Warszawa", "00-850");
+    Supplier biedronka = new Supplier("Biedronka", warszawa, "kotnakt@biedronka.pl");
         Product laptop = (new Electronics(
                 "E001",
                 "Laptop",
                 Money.of("3999.99", "PLN"),
                 List.of("elektronika"),
-                24));
+                24,
+                xkom,
+                10));
         Product monitor = (new Electronics(
                 "E002",
                 "Monitor",
                 Money.of("1499.00", "PLN"),
                 List.of("elektronika"),
-                36));
+                36,
+                xkom,
+                5));
         Product mleko = (new FoodProduct(
                 "F001",
                 "Mleko",
                 Money.of("4.99", "PLN"),
                 List.of("nabiał"),
-                "20-08-2026"));
+                "20-08-2026",
+                biedronka,
+                20));
         Product jogurt = (new FoodProduct(
                 "F002",
                 "Jogurt",
                 Money.of("3.99", "PLN"),
                 List.of("nabiał"),
-                "01-09-2026"));
-        Product minectraft = (new DigitalProduct(
+                "01-09-2026",
+                biedronka,
+                40));
+        Product minecraft = (new DigitalProduct(
                 "D001",
                 "Minecraft",
                 Money.of("99.99", "PLN"),
                 List.of("gra"),
-                "https://download.com"));
+                "https://download.com", null, 15));
 
-        Product[] products = {laptop, monitor, mleko, jogurt, minectraft};
+        Product[] products = {laptop, monitor, mleko, jogurt, minecraft};
 
         ShoppingCart cart1 = new ShoppingCart(new NoDiscount());
         ShoppingCart cart2 = new ShoppingCart(new PercentageDiscount(10));
@@ -52,22 +62,22 @@ public class Main {
 
 
         for (Product product : products) {
-            cart1.add(product);
-            cart2.add(product);
-            cart3.add(product);
+            cart1.add(product, 1);
+            cart2.add(product, 1);
+            cart3.add(product, 1);
         }
         System.out.println("=== BRAK RABATU ===");
-        System.out.println(cart1.getReceipt());
+        System.out.println(cart1.generateReceipt());
 
         System.out.println();
 
         System.out.println("=== RABAT 10% ===");
-        System.out.println(cart2.getReceipt());
+        System.out.println(cart2.generateReceipt());
 
         System.out.println();
 
         System.out.println("=== RABAT TYLKO DLA ELEKTRONIKI ===");
-        System.out.println(cart3.getReceipt());
+        System.out.println(cart3.generateReceipt());
 
         Warehouse<Product> productWarehouse = new Warehouse<>();
 
@@ -75,7 +85,7 @@ public class Main {
         productWarehouse.add(monitor);
         productWarehouse.add(mleko);
         productWarehouse.add(jogurt);
-        productWarehouse.add(minectraft);
+        productWarehouse.add(minecraft);
 
         System.out.println();
         System.out.println("=== MAGAZYN PRODUKTÓW ===");

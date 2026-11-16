@@ -1,22 +1,26 @@
 package org.example.product;
 
+import lombok.Getter;
+
 import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
-public abstract class Product implements Identifiable<String> {
+@Getter
+public abstract class Product implements Identifiable<String>, Comparable<Product> {
 
+    @Getter
     private static int createdCount = 0;
 
     private final String sku;
     private final String name;
+    private final int stock;
     private Money netPrice;
     private final List<String> tags;
     private final Category category;
+    private final Supplier supplier;
 
-    protected Product(String sku, String name, Money netPrice, List<String> tags, Category category) {
+    protected Product(String sku, String name, Money netPrice, List<String> tags, Category category,
+                      Supplier supplier, int stock) {
 
         if (sku == null || sku.trim().isEmpty()) {
             throw new IllegalArgumentException("Invalid sku");
@@ -35,26 +39,12 @@ public abstract class Product implements Identifiable<String> {
         this.netPrice = netPrice;
         this.tags = new ArrayList<>(tags);
         this.category = category;
+        this.supplier = supplier;
+        this.stock = stock;
 
         createdCount++;
     }
 
-
-    public static int getCreatedCount() {
-        return createdCount;
-    }
-
-    public String getSku() {
-        return sku;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Money getNetPrice() {
-        return netPrice;
-    }
 
     public Money getGrossPrice() { return netPrice.applyPercent(category.getVatRate() * 100);
     }
@@ -65,10 +55,6 @@ public abstract class Product implements Identifiable<String> {
 
 
     public abstract Money getShippingCost();
-
-    public Category getCategory() {
-        return category;
-    }
 
     public final Money getTotalPrice() {
         return getNetPrice().add(getShippingCost());
@@ -147,17 +133,18 @@ public abstract class Product implements Identifiable<String> {
         );
     }
 
-    public final String getLabel() {
-        return String.format(
-                "%s [%s] - %s (z wysyłką %s)",
-                getName(),
-                getCategory().getDisplayName(),
-                getNetPrice(),
-                getTotalPrice());
-    }
+    public abstract String getLabel();
+
     @Override
     public String getId() {
         return getSku();
+    }
+    @Override
+    public int compareTo(Product other) {
+        return sku.compareTo(other.sku);
+    }
 
+    public Optional<Supplier> findSupplier() {
+        return Optional.ofNullable(supplier);
     }
 }
