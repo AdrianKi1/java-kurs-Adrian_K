@@ -11,8 +11,7 @@ public record Money(BigDecimal amount, String currency) {
         if (!currency.equals(other.currency)) {
             throw new IllegalArgumentException("Different currencies");
         }
-        return new Money(amount.add(other.amount()),
-                currency);
+        return new Money(amount.add(other.amount()), currency);
     }
     public Money subtract(Money other) {
         if (!currency.equals(other.currency())) {

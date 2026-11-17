@@ -30,8 +30,8 @@ public enum Category {
     public boolean isRequiresAgeVerification() {
         return requiresAgeVerification;
     }
-    public double calculateGross(double net) {
-        return net * (1 + vatRate);
+    public Money calculateGross(Money net) {
+        return net.applyPercent(vatRate * 100);
     }
     public static List<Category> withoutAgeCheck() {
         List<Category> result = new ArrayList<>();

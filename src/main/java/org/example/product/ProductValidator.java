@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductValidator {
-
     public static List<String> validate(Object obj) {
         List<String> errors = new ArrayList<>();
         Field[] fields = obj.getClass().getDeclaredFields();
@@ -15,14 +14,24 @@ public class ProductValidator {
             try {
                 Object value = field.get(obj);
                 if (field.isAnnotationPresent(NotBlank.class)) {
-
                     if (value == null || value.toString().trim().isEmpty()) {
                         errors.add(field.getName() + " nie może być puste");
                     }
                 }
+
                 if (field.isAnnotationPresent(Positive.class)) {
-                    if (((Number) value).doubleValue() <= 0) {
+                    if (value == null) {
                         errors.add(field.getName() + " musi być dodatnie");
+                    } else if (value instanceof Money money) {
+                        if (money.amount().compareTo(java.math.BigDecimal.ZERO) <= 0) {
+                           errors.add(field.getName() + " musi być dodatnie");
+                        }
+                    } else if (value instanceof Number number) {
+                        if (number.doubleValue() <= 0) {
+                            errors.add(field.getName() + " musi być dodatnie");
+                        }
+                    } else {
+                        errors.add(field.getName() + " musi być liczbą");
                     }
                 }
                 if (field.isAnnotationPresent(MaxLength.class)) {
