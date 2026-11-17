@@ -13,10 +13,13 @@ public class ShoppingCart {
     public ShoppingCart(DiscountPolicy discountPolicy) {
         this.discountPolicy = discountPolicy;
     }
+
     public void add(Product product) {
         products.add(product);
     }
+
     public void remove(String sku) {
+
         for (Product product : products) {
             if (product.getSku().equals(sku)) {
                 products.remove(product);
@@ -24,6 +27,7 @@ public class ShoppingCart {
             }
         }
     }
+
     public Money getTotal() {
         Money sum = Money.zero("PLN");
 
@@ -39,7 +43,6 @@ public class ShoppingCart {
 
     public String getReceipt() {
         String receipt = "";
-
         receipt += "Polityka rabatowa: " + discountPolicy.getName() + "\n";
 
         for (Product product : products) {
@@ -47,7 +50,6 @@ public class ShoppingCart {
         }
 
         receipt += ("Razem: " + getTotal());
-
         return receipt;
     }
 }

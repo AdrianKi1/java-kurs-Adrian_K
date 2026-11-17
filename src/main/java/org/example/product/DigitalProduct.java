@@ -10,6 +10,7 @@ public class DigitalProduct extends Product {
         super(sku, name, netPrice, tags, Category.BOOKS);
         this.downloadUrl = downloadUrl;
     }
+
     public String getDescription() {
         return super.getDescription() + " (plik do pobrania)";
     }

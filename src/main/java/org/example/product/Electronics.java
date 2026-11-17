@@ -15,11 +15,12 @@ public class Electronics extends Product {
     public String getDescription() {
         return super.getDescription() + " (gwarancja " + warrantyMonths + " mies.)";
     }
+
     public Money getShippingCost() {
         if (getNetPrice().isGreaterThan(Money.of("2000", "PLN"))) {
             return Money.zero("PLN");
         }
+
         return Money.of("19.99", "PLN");
     }
-
 }

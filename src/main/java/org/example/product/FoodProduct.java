@@ -10,9 +10,11 @@ public class FoodProduct extends Product implements Perishable {
         super(sku, name, netPrice, tags, Category.FOOD);
         this.expiryDate = expiryDate;
     }
+
     public String getDescription() {
         return super.getDescription() + " (termin: " + expiryDate + ")";
     }
+
     public Money getShippingCost() {
         return Money.of("29.99", "PLN");
     }

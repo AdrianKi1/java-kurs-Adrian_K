@@ -9,7 +9,6 @@ import java.util.Objects;
 public abstract class Product implements Identifiable<String> {
 
     private static int createdCount = 0;
-
     private final String sku;
     private final String name;
     private Money netPrice;
@@ -85,17 +84,16 @@ public abstract class Product implements Identifiable<String> {
     }
 
     public void applyDiscount(double percent) {
-
         if (percent <= 0 || percent >= 100) {
             throw new IllegalArgumentException();
         }
+
         Money increased = netPrice.applyPercent(percent);
         Money discount =increased.subtract(netPrice);
         netPrice = netPrice.subtract(discount);
     }
 
     public void addTag(String tag) {
-
         if (tag == null || tag.trim().isEmpty()) {
             throw new IllegalArgumentException();
         }
@@ -128,7 +126,6 @@ public abstract class Product implements Identifiable<String> {
         }
 
         Product that = (Product) o;
-
         return sku.equals(that.sku);
     }
 
@@ -144,8 +141,7 @@ public abstract class Product implements Identifiable<String> {
                 sku,
                 name,
                 getNetPrice(),
-                getGrossPrice()
-        );
+                getGrossPrice());
     }
 
     public final String getLabel() {
@@ -156,6 +152,7 @@ public abstract class Product implements Identifiable<String> {
                 getNetPrice(),
                 getTotalPrice());
     }
+
     @Override
     public String getId() {
         return getSku();

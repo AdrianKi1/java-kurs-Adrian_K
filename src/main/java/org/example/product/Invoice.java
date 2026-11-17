@@ -27,6 +27,7 @@ public class Invoice {
         for (InvoiceLine line : lines) {
             total = total.add(line.vatValue());
         }
+
         return total;
     }
 
@@ -40,19 +41,18 @@ public class Invoice {
     }
 
     public Map<Category, Money> getVatSummary() {
-
         Map<Category, Money> summary = new EnumMap<>(Category.class);
 
         for (InvoiceLine line : lines) {
             Category category = line.product().category();
             summary.put(category, summary.getOrDefault(category, Money.zero("PLN")).add(line.vatValue()));
         }
+
         return summary;
     }
 
     public String render() {
         StringBuilder sb = new StringBuilder();
-
         sb.append("""
                 ===== FAKTURA =====
                 
@@ -60,7 +60,6 @@ public class Invoice {
                 """);
 
         for (InvoiceLine line : lines) {
-
             sb.append(String.format(
                             "%-20s %5d %15s %15s%n",
                             line.product().name(),

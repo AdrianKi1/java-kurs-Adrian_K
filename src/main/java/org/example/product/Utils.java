@@ -16,6 +16,7 @@ public class Utils {
         for (Product product : products) {
             sum = sum.add(product.getTotalPrice());
         }
+
         return sum;
     }
 }

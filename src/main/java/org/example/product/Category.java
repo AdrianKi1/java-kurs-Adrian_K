@@ -20,19 +20,22 @@ public enum Category {
         this.requiresAgeVerification = requiresAgeVerification;
     }
 
-
     public String getDisplayName() {
         return displayName;
     }
+
     public double getVatRate() {
         return vatRate;
     }
+
     public boolean isRequiresAgeVerification() {
         return requiresAgeVerification;
     }
+
     public Money calculateGross(Money net) {
         return net.applyPercent(vatRate * 100);
     }
+
     public static List<Category> withoutAgeCheck() {
         List<Category> result = new ArrayList<>();
         for (Category category : values()) {
@@ -40,6 +43,7 @@ public enum Category {
                 result.add(category);
             }
         }
+
         return result;
     }
 }
