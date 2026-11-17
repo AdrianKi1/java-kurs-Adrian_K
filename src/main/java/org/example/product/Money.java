@@ -7,19 +7,19 @@ public record Money(BigDecimal amount, String currency) {
 
     public Money add(Money other) {
         if (!currency.equals(other.currency)) {
-            throw new IllegalArgumentException("Different currencies");
+            throw new ShopException("Different currencies");
         }
         return new Money(amount.add(other.amount()),
                 currency);
     }
     public Money subtract(Money other) {
         if (!currency.equals(other.currency())) {
-            throw new IllegalArgumentException("Different currencies");
+            throw new ShopException("Different currencies");
         }
         BigDecimal result = amount.subtract(other.amount());
 
         if (result.compareTo(BigDecimal.ZERO) < 0) {
-            throw new IllegalArgumentException("Negative result");
+            throw new InvalidPriceException(new Money(result.abs(), currency));
         }
         return new Money(result, currency);
 
@@ -33,7 +33,7 @@ public record Money(BigDecimal amount, String currency) {
     }
     public boolean isGreaterThan(Money other) {
         if (!currency.equals(other.currency())) {
-            throw new IllegalArgumentException("Different currencies");
+            throw new ShopException("Different currencies");
         }
         return amount.compareTo(other.amount()) > 0;
     }
@@ -52,13 +52,13 @@ public record Money(BigDecimal amount, String currency) {
 
     public Money {
         if (amount == null) {
-            throw new IllegalArgumentException("Amount cannot be null");
+            throw new ShopException("Amount cannot be null");
         }
         if (amount.compareTo(BigDecimal.ZERO) < 0) {
-            throw new IllegalArgumentException("Amount cannot be negative");
+            throw new InvalidPriceException(new Money(amount.abs(), currency));
         }
         if (currency == null || currency.trim().isEmpty()) {
-            throw new IllegalArgumentException("Currency cannot be empty");
+            throw new ShopException("Currency cannot be empty");
         }
         currency = currency.trim().toUpperCase();
         amount = amount.setScale(2, RoundingMode.HALF_UP);

@@ -23,15 +23,15 @@ public abstract class Product implements Identifiable<String>, Comparable<Produc
                       Supplier supplier, int stock) {
 
         if (sku == null || sku.trim().isEmpty()) {
-            throw new IllegalArgumentException("Invalid sku");
+            throw new ShopException("Invalid sku");
         }
 
         if (name == null || name.trim().isEmpty()) {
-            throw new IllegalArgumentException("Invalid name");
+            throw new ShopException("Invalid name");
         }
 
         if (netPrice == null) {
-            throw new IllegalArgumentException("Invalid price");
+            throw new InvalidPriceException(netPrice);
         }
 
         this.sku = sku.trim().toUpperCase();
@@ -63,7 +63,7 @@ public abstract class Product implements Identifiable<String>, Comparable<Produc
     public void raisePriceBy(double percent) {
 
         if (percent <= 0) {
-            throw new IllegalArgumentException();
+            throw new ShopException("Invalid percent");
         }
 
         netPrice = netPrice.applyPercent(percent);
@@ -72,7 +72,7 @@ public abstract class Product implements Identifiable<String>, Comparable<Produc
     public void applyDiscount(double percent) {
 
         if (percent <= 0 || percent >= 100) {
-            throw new IllegalArgumentException();
+            throw new ShopException("Invalid discount percent");
         }
         Money increased = netPrice.applyPercent(percent);
         Money discount =increased.subtract(netPrice);
@@ -82,7 +82,7 @@ public abstract class Product implements Identifiable<String>, Comparable<Produc
     public void addTag(String tag) {
 
         if (tag == null || tag.trim().isEmpty()) {
-            throw new IllegalArgumentException();
+            throw new ShopException("Invalid tag");
         }
 
         tags.add(tag.trim().toLowerCase());
