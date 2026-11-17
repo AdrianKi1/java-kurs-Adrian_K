@@ -56,7 +56,8 @@ public abstract class Product implements Identifiable<String> {
         return netPrice;
     }
 
-    public Money getGrossPrice() { return netPrice.applyPercent(category.getVatRate() * 100);
+    public double getGrossPrice() {
+        return category.calculateGross(netPrice);
     }
 
     public String getDescription() {

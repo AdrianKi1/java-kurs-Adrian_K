@@ -6,6 +6,7 @@ public record ProductDTO(@NotBlank String sku, @NotBlank @MaxLength(20) String n
         if (sku != null) {
             sku= sku.trim().toUpperCase();
         }
+
     }
     public Money grossPrice() {
         return netPrice.applyPercent(category.getVatRate() * 100);
