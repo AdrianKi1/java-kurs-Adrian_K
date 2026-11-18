@@ -60,6 +60,7 @@ public record Money(BigDecimal amount, String currency) {
 
         return amount.compareTo(other.amount()) > 0;
     }
+
     public static Money zero(String currency) {
         return new Money(BigDecimal.ZERO, currency);
     }
