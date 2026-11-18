@@ -1,8 +1,11 @@
 package org.example.product;
 
+import lombok.Getter;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 public enum Category {
 
     ELECTRONICS("Elektronika", 0.23, false),
@@ -18,18 +21,6 @@ public enum Category {
         this.displayName = displayName;
         this.vatRate = vatRate;
         this.requiresAgeVerification = requiresAgeVerification;
-    }
-
-    public String getDisplayName() {
-        return displayName;
-    }
-
-    public double getVatRate() {
-        return vatRate;
-    }
-
-    public boolean isRequiresAgeVerification() {
-        return requiresAgeVerification;
     }
 
     public Money calculateGross(Money net) {

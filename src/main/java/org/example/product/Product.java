@@ -1,12 +1,15 @@
 package org.example.product;
 
+import lombok.Getter;
+
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-public abstract class Product implements Identifiable<String> {
+@Getter
+public abstract class Product implements Identifiable<String>, Comparable<Product> {
 
     private static int createdCount = 0;
     private final String sku;
@@ -39,22 +42,6 @@ public abstract class Product implements Identifiable<String> {
     }
 
 
-    public static int getCreatedCount() {
-        return createdCount;
-    }
-
-    public String getSku() {
-        return sku;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Money getNetPrice() {
-        return netPrice;
-    }
-
     public Money getGrossPrice() {
         return category.calculateGross(netPrice);
     }
@@ -65,10 +52,6 @@ public abstract class Product implements Identifiable<String> {
 
 
     public abstract Money getShippingCost();
-
-    public Category getCategory() {
-        return category;
-    }
 
     public final Money getTotalPrice() {
         return getNetPrice().add(getShippingCost());
@@ -144,18 +127,16 @@ public abstract class Product implements Identifiable<String> {
                 getGrossPrice());
     }
 
-    public final String getLabel() {
-        return String.format(
-                "%s [%s] - %s (z wysyłką %s)",
-                getName(),
-                getCategory().getDisplayName(),
-                getNetPrice(),
-                getTotalPrice());
-    }
+    public abstract String getLabel();
 
     @Override
     public String getId() {
         return getSku();
 
+    }
+
+    @Override
+    public int compareTo(Product other) {
+        return sku.compareTo(other.sku);
     }
 }

@@ -3,6 +3,7 @@ package org.example.product;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 public class ShoppingCart {
@@ -14,8 +15,11 @@ public class ShoppingCart {
         this.discountPolicy = discountPolicy;
     }
 
-    public void add(Product product) {
-        products.add(product);
+    public void add(Product product, int quantity) {
+
+        for (int i = 0; i < quantity; i++) {
+            products.add(product);
+        }
     }
 
     public void remove(String sku) {
@@ -41,7 +45,7 @@ public class ShoppingCart {
         return sum;
     }
 
-    public String getReceipt() {
+    public String generateReceipt() {
         String receipt = "";
         receipt += "Polityka rabatowa: " + discountPolicy.getName() + "\n";
 
@@ -51,5 +55,12 @@ public class ShoppingCart {
 
         receipt += ("Razem: " + getTotal());
         return receipt;
+    }
+
+    public List<Product> getSortedBy(Comparator<Product> comparator) {
+        List<Product> copy =new ArrayList<>(products);
+        copy.sort(comparator);
+
+        return copy;
     }
 }

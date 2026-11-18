@@ -52,22 +52,22 @@ public class Main {
 
 
         for (Product product : products) {
-            cart1.add(product);
-            cart2.add(product);
-            cart3.add(product);
+            cart1.add(product, 1);
+            cart2.add(product, 1);
+            cart3.add(product, 1);
         }
         System.out.println("=== BRAK RABATU ===");
-        System.out.println(cart1.getReceipt());
+        System.out.println(cart1.generateReceipt());
 
         System.out.println();
 
         System.out.println("=== RABAT 10% ===");
-        System.out.println(cart2.getReceipt());
+        System.out.println(cart2.generateReceipt());
 
         System.out.println();
 
         System.out.println("=== RABAT TYLKO DLA ELEKTRONIKI ===");
-        System.out.println(cart3.getReceipt());
+        System.out.println(cart3.generateReceipt());
 
         Warehouse<Product> productWarehouse = new Warehouse<>();
 
