@@ -16,11 +16,18 @@ public class Electronics extends Product {
         return super.getDescription() + " (gwarancja " + warrantyMonths + " mies.)";
     }
 
+    @Override
     public Money getShippingCost() {
         if (getNetPrice().isGreaterThan(Money.of("2000", "PLN"))) {
             return Money.zero("PLN");
         }
 
         return Money.of("19.99", "PLN");
+    }
+
+    @Override
+    public String getLabel() {
+        return String.format("%s [%s] - %s (z wysyłką %s)", getName(), getCategory().getDisplayName(), getNetPrice(),
+                getTotalPrice());
     }
 }

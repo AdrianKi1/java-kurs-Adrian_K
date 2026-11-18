@@ -11,10 +11,19 @@ public class DigitalProduct extends Product {
         this.downloadUrl = downloadUrl;
     }
 
+    @Override
     public String getDescription() {
         return super.getDescription() + " (plik do pobrania)";
     }
+
+    @Override
     public Money getShippingCost() {
         return Money.zero("PLN");
+    }
+
+    @Override
+    public String getLabel() {
+        return String.format("%s [%s] - %s (z wysyłką %s)", getName(), getCategory().getDisplayName(), getNetPrice(),
+                getTotalPrice());
     }
 }

@@ -11,10 +11,12 @@ public class FoodProduct extends Product implements Perishable {
         this.expiryDate = expiryDate;
     }
 
+    @Override
     public String getDescription() {
         return super.getDescription() + " (termin: " + expiryDate + ")";
     }
 
+    @Override
     public Money getShippingCost() {
         return Money.of("29.99", "PLN");
     }
@@ -23,5 +25,11 @@ public class FoodProduct extends Product implements Perishable {
     public boolean isExpired() {
         LocalDate expiry = LocalDate.parse(expiryDate);
         return expiry.isBefore(LocalDate.now());
+    }
+
+    @Override
+    public String getLabel() {
+        return String.format("%s [%s] - %s (z wysyłką %s)", getName(), getCategory().getDisplayName(), getNetPrice(),
+                getTotalPrice());
     }
 }
