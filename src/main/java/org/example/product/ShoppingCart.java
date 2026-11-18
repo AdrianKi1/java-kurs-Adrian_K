@@ -1,5 +1,6 @@
 package org.example.product;
 
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -12,10 +13,13 @@ public class ShoppingCart {
     public ShoppingCart(DiscountPolicy discountPolicy) {
         this.discountPolicy = discountPolicy;
     }
+
     public void add(Product product) {
         products.add(product);
     }
+
     public void remove(String sku) {
+
         for (Product product : products) {
             if (product.getSku().equals(sku)) {
                 products.remove(product);
@@ -23,14 +27,15 @@ public class ShoppingCart {
             }
         }
     }
-    public double getTotal() {
-        double sum = 0;
+
+    public Money getTotal() {
+        Money sum = Money.zero("PLN");
 
         for (Product product : products) {
             if (discountPolicy.appliesTo(product)) {
-                sum += discountPolicy.apply(product.getTotalPrice());
+                sum = sum.add(discountPolicy.apply(product.getTotalPrice()));
             } else {
-                sum += product.getTotalPrice();
+                sum = sum.add(product.getTotalPrice());
             }
         }
         return sum;
@@ -38,15 +43,13 @@ public class ShoppingCart {
 
     public String getReceipt() {
         String receipt = "";
-
         receipt += "Polityka rabatowa: " + discountPolicy.getName() + "\n";
 
         for (Product product : products) {
             receipt += product.getLabel() + "\n";
         }
 
-        receipt += String.format("Razem: %.2f zł", getTotal());
-
+        receipt += ("Razem: " + getTotal());
         return receipt;
     }
 }

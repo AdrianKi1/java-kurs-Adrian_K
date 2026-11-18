@@ -1,5 +1,6 @@
 package org.example.product;
 
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -7,16 +8,14 @@ import java.util.Objects;
 
 public abstract class Product implements Identifiable<String> {
 
-    private static final double DEFAULT_VAT_RATE = 0.23;
     private static int createdCount = 0;
-
     private final String sku;
     private final String name;
-    private double netPrice;
+    private Money netPrice;
     private final List<String> tags;
     private final Category category;
 
-    protected Product(String sku, String name, double netPrice, List<String> tags, Category category) {
+    protected Product(String sku, String name, Money netPrice, List<String> tags, Category category) {
 
         if (sku == null || sku.trim().isEmpty()) {
             throw new IllegalArgumentException("Invalid sku");
@@ -26,7 +25,7 @@ public abstract class Product implements Identifiable<String> {
             throw new IllegalArgumentException("Invalid name");
         }
 
-        if (netPrice <= 0) {
+        if (netPrice == null) {
             throw new IllegalArgumentException("Invalid price");
         }
 
@@ -52,28 +51,27 @@ public abstract class Product implements Identifiable<String> {
         return name;
     }
 
-    public double getNetPrice() {
+    public Money getNetPrice() {
         return netPrice;
     }
 
-    public double getGrossPrice() {
+    public Money getGrossPrice() {
         return category.calculateGross(netPrice);
     }
 
     public String getDescription() {
-        return String.format("%s - %.2f zł", getName(), getNetPrice());
+        return String.format("%s - %s", getName(), getNetPrice());
     }
 
 
-    public abstract double getShippingCost();
-//        return 19.99;
-//    }
+    public abstract Money getShippingCost();
+
     public Category getCategory() {
         return category;
     }
 
-    public final double getTotalPrice() {
-        return getNetPrice() + getShippingCost();
+    public final Money getTotalPrice() {
+        return getNetPrice().add(getShippingCost());
     }
 
     public void raisePriceBy(double percent) {
@@ -82,26 +80,20 @@ public abstract class Product implements Identifiable<String> {
             throw new IllegalArgumentException();
         }
 
-        netPrice += netPrice * percent / 100;
+        netPrice = netPrice.applyPercent(percent);
     }
 
     public void applyDiscount(double percent) {
-
         if (percent <= 0 || percent >= 100) {
             throw new IllegalArgumentException();
         }
 
-        double newPrice = netPrice - netPrice * percent / 100;
-
-        if (newPrice < 0.01) {
-            throw new IllegalArgumentException();
-        }
-
-        netPrice = newPrice;
+        Money increased = netPrice.applyPercent(percent);
+        Money discount =increased.subtract(netPrice);
+        netPrice = netPrice.subtract(discount);
     }
 
     public void addTag(String tag) {
-
         if (tag == null || tag.trim().isEmpty()) {
             throw new IllegalArgumentException();
         }
@@ -134,7 +126,6 @@ public abstract class Product implements Identifiable<String> {
         }
 
         Product that = (Product) o;
-
         return sku.equals(that.sku);
     }
 
@@ -146,22 +137,22 @@ public abstract class Product implements Identifiable<String> {
     @Override
     public String toString() {
         return String.format(
-                "%s %s - netto %.2f / brutto %.2f zł",
+                "%s %s - netto %s / brutto %s",
                 sku,
                 name,
-                netPrice,
-                getGrossPrice()
-        );
+                getNetPrice(),
+                getGrossPrice());
     }
 
     public final String getLabel() {
         return String.format(
-                "%s [%s] - %.2f zł (z wysyłką %.2f zł)",
+                "%s [%s] - %s (z wysyłką %s)",
                 getName(),
                 getCategory().getDisplayName(),
                 getNetPrice(),
                 getTotalPrice());
     }
+
     @Override
     public String getId() {
         return getSku();
