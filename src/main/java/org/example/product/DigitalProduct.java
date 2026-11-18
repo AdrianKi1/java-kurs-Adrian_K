@@ -6,9 +6,15 @@ public class DigitalProduct extends Product {
 
     private String downloadUrl;
 
-    public DigitalProduct(String sku, String name, Money netPrice, List<String> tags, String downloadUrl) {
-        super(sku, name, netPrice, tags, Category.BOOKS);
+    public DigitalProduct(String sku, String name, Money netPrice, List<String> tags, String downloadUrl, int stock,
+                          Supplier supplier) {
+        super(sku, name, netPrice, tags, Category.BOOKS, stock, supplier);
         this.downloadUrl = downloadUrl;
+
+    }
+
+    public DigitalProduct(String sku, String name, Money netPrice, List<String> tags, String downloadUrl) {
+        this(sku, name, netPrice, tags, downloadUrl, 0, null);
     }
 
     @Override

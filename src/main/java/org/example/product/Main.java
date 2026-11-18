@@ -1,5 +1,7 @@
 package org.example.product;
 
+import jdk.swing.interop.SwingInterOpUtils;
+
 import java.awt.font.FontRenderContext;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -10,8 +12,6 @@ import java.util.EnumMap;
 public class Main {
 
     public static void main(String[] args) {
-
-
 
         Product laptop = (new Electronics(
                 "E001",
@@ -37,14 +37,19 @@ public class Main {
                 Money.of("3.99", "PLN"),
                 List.of("nabiał"),
                 "01-09-2026"));
-        Product minectraft = (new DigitalProduct(
+        Product minecraft = (new DigitalProduct(
                 "D001",
                 "Minecraft",
                 Money.of("99.99", "PLN"),
                 List.of("gra"),
                 "https://download.com"));
 
-        Product[] products = {laptop, monitor, mleko, jogurt, minectraft};
+        Product[] products = {laptop, monitor, mleko, jogurt, minecraft};
+
+        Address address = new Address("Kwiatowa 10", "Warszawa", "00-001");
+        Supplier supplier = new Supplier("TechSupplier", address, "kontakt@techsupplier.pl");
+        Product testProduct = new Electronics("E003", "Klawiatura", Money.of("199.99",
+                "PLN"), List.of("elektronika"), 24, 15, supplier);
 
         ShoppingCart cart1 = new ShoppingCart(new NoDiscount());
         ShoppingCart cart2 = new ShoppingCart(new PercentageDiscount(10));
@@ -69,13 +74,31 @@ public class Main {
         System.out.println("=== RABAT TYLKO DLA ELEKTRONIKI ===");
         System.out.println(cart3.generateReceipt());
 
-        Warehouse<Product> productWarehouse = new Warehouse<>();
+        ProductWarehouse productWarehouse = new ProductWarehouse();
 
         productWarehouse.add(laptop);
         productWarehouse.add(monitor);
         productWarehouse.add(mleko);
         productWarehouse.add(jogurt);
-        productWarehouse.add(minectraft);
+        productWarehouse.add(minecraft);
+        productWarehouse.add(testProduct);
+        SupplyChainService supplyChainService = new SupplyChainService(productWarehouse);
+        System.out.println();
+        System.out.println("=== TEST ŁAŃCUCHA DOSTAW ===");
+        System.out.println("Nazwa dostawcy: " + supplyChainService.findSupplierName("E003"));
+        System.out.println("Email dostawcy: " + supplyChainService.findSupplierEmail("E003"));
+        System.out.println("Miasto dostawcy: " + supplyChainService.findSupplierCity("E003"));
+
+        System.out.println("Etykieta dostawcy: " + supplyChainService.getSupplierLabel("E003"));
+        System.out.println("Email do kontaktu: " + supplyChainService.findEmailForContact("E003"));
+        System.out.println("Adres dostawcy najtańszego produktu: " + supplyChainService.findAddressOfCheapest());
+        System.out.println("Miasto wysyłki: " + supplyChainService.getShippingCity("E003"));
+        System.out.println("Produkt z wymaganym stanem: " + supplyChainService.findBySkuAndMinStock("E003",
+                10));
+        System.out.println("Produkt z niewystarczjącym stanem: " + supplyChainService.findBySkuAndMinStock("E003",
+                20));
+        System.out.println("Miasta dostawców: " + supplyChainService.collectSupplierCities());
+        System.out.println("Produkt znaleziony przez getOrThrow: " + supplyChainService.getOrThrow("E003"));
 
         System.out.println();
         System.out.println("=== MAGAZYN PRODUKTÓW ===");
