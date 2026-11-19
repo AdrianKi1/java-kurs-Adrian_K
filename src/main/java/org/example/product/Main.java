@@ -1,7 +1,5 @@
 package org.example.product;
 
-import jdk.swing.interop.SwingInterOpUtils;
-
 import java.awt.font.FontRenderContext;
 import java.util.ArrayList;
 import java.util.HashSet;
