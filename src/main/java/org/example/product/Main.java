@@ -99,6 +99,13 @@ public class Main {
         System.out.println("Produkt znaleziony przez getOrThrow: " + supplyChainService.getOrThrow("E003"));
 
         System.out.println();
+        System.out.println("=== Test Process Order ===");
+        OrderResult orderResult = supplyChainService.processOrder(List.of("E001", "Brak-001", "E003", "Brak-002"));
+
+        System.out.println("Przyjęte produkty: " + orderResult.accepted());
+        System.out.println("Odrzucone pozycje: " + orderResult.rejected());
+
+        System.out.println();
         System.out.println("=== MAGAZYN PRODUKTÓW ===");
 
         System.out.println("Liczba produktów: " +  productWarehouse.count());
