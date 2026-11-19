@@ -6,9 +6,14 @@ import java.util.List;
 public class FoodProduct extends Product implements Perishable {
     private String expiryDate;
 
-    public FoodProduct(String sku, String name, Money netPrice, List<String> tags, String expiryDate) {
-        super(sku, name, netPrice, tags, Category.FOOD);
+    public FoodProduct(String sku, String name, Money netPrice, List<String> tags, String expiryDate, int stock,
+                       Supplier supplier) {
+        super(sku, name, netPrice, tags, Category.FOOD, stock, supplier);
         this.expiryDate = expiryDate;
+    }
+
+    public FoodProduct(String sku, String name, Money netPrice, List<String> tags, String expiryDate) {
+        this(sku, name, netPrice, tags, expiryDate, 0, null);
     }
 
     @Override

@@ -3,10 +3,8 @@ package org.example.product;
 import lombok.Getter;
 
 import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.Optional;
 
 @Getter
 public abstract class Product implements Identifiable<String>, Comparable<Product> {
@@ -17,8 +15,11 @@ public abstract class Product implements Identifiable<String>, Comparable<Produc
     private Money netPrice;
     private final List<String> tags;
     private final Category category;
+    private int stock;
+    private final Supplier supplier;
 
-    protected Product(String sku, String name, Money netPrice, List<String> tags, Category category) {
+    protected Product(String sku, String name, Money netPrice, List<String> tags, Category category, int stock,
+                      Supplier supplier) {
 
         if (sku == null || sku.trim().isEmpty()) {
             throw new IllegalArgumentException("Invalid sku");
@@ -37,6 +38,8 @@ public abstract class Product implements Identifiable<String>, Comparable<Produc
         this.netPrice = netPrice;
         this.tags = new ArrayList<>(tags);
         this.category = category;
+        this.stock = stock;
+        this.supplier = supplier;
 
         createdCount++;
     }
@@ -138,5 +141,9 @@ public abstract class Product implements Identifiable<String>, Comparable<Produc
     @Override
     public int compareTo(Product other) {
         return sku.compareTo(other.sku);
+    }
+
+    public Optional<Supplier> findSupplier() {
+        return Optional.ofNullable(supplier);
     }
 }
