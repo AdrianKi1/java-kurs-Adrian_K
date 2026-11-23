@@ -8,11 +8,11 @@ import java.math.RoundingMode;
 public record Money(BigDecimal amount, String currency) {
     public Money {
         if (amount == null) {
-            throw new ShopException("Amount cannot be null");
+            throw new InvalidPriceException("Amount cannot be null");
         }
 
         if (amount.compareTo(BigDecimal.ZERO) < 0) {
-            throw new ShopException("Amount cannot be negative");
+            throw new InvalidPriceException("Amount cannot be negative");
         }
 
         if (currency == null || currency.trim().isEmpty()) {
@@ -38,7 +38,7 @@ public record Money(BigDecimal amount, String currency) {
 
         BigDecimal result = amount.subtract(other.amount());
         if (result.compareTo(BigDecimal.ZERO) < 0) {
-            throw new ShopException("Negative result");
+            throw new InvalidPriceException("Negative result");
         }
 
         return new Money(result, currency);

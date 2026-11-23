@@ -9,6 +9,11 @@ public class InvalidPriceException extends ShopException{
         this.price = price;
     }
 
+    public InvalidPriceException(String message) {
+        super(message);
+        this.price = null;
+    }
+
     public Money getPrice() {
         return price;
     }
