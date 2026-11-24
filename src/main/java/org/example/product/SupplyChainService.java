@@ -61,6 +61,21 @@ public class SupplyChainService {
 
     public Product getOrThrow(String sku) {
         return warehouse.findById(sku).
-                orElseThrow(() -> new IllegalArgumentException("Nie znaleziono produktu o sku: " + sku));
+                orElseThrow(() -> new ProductNotFoundException(sku));
+    }
+
+    public OrderResult processOrder(List<String> skus) {
+        List<Product> accepted = new ArrayList<>();
+        List<String> rejected = new ArrayList<>();
+
+        for (String sku : skus) {
+            try {
+                Product product = getOrThrow(sku);
+                accepted.add(product);
+            } catch (ProductNotFoundException e) {
+                rejected.add(e.getMessage());
+            }
+        }
+        return new OrderResult(accepted, rejected);
     }
 }
