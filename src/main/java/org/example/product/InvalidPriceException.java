@@ -2,19 +2,14 @@ package org.example.product;
 
 public class InvalidPriceException extends ShopException{
 
-    private final Money price;
+    private final String price;
 
-    public InvalidPriceException(Money price) {
+    public InvalidPriceException(String price) {
         super("Nieprawidłowa cena produktu: " + price);
         this.price = price;
     }
 
-    public InvalidPriceException(String message) {
-        super(message);
-        this.price = null;
-    }
-
-    public Money getPrice() {
+    public String getPrice() {
         return price;
     }
 }

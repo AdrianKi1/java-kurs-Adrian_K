@@ -30,7 +30,7 @@ public abstract class Product implements Identifiable<String>, Comparable<Produc
         }
 
         if (netPrice == null) {
-            throw new ShopException(null);
+            throw new InvalidPriceException("null");
         }
 
         this.sku = sku.trim().toUpperCase();
@@ -63,7 +63,7 @@ public abstract class Product implements Identifiable<String>, Comparable<Produc
     public void raisePriceBy(double percent) {
 
         if (percent <= 0) {
-            throw new InvalidPriceException(netPrice);
+            throw new InvalidPriceException(netPrice.toString());
         }
 
         netPrice = netPrice.applyPercent(percent);
@@ -71,7 +71,7 @@ public abstract class Product implements Identifiable<String>, Comparable<Produc
 
     public void applyDiscount(double percent) {
         if (percent <= 0 || percent >= 100) {
-            throw new InvalidPriceException(netPrice);
+            throw new InvalidPriceException(netPrice.toString());
         }
 
         Money increased = netPrice.applyPercent(percent);
