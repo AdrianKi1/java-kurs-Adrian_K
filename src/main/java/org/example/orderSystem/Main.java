@@ -45,7 +45,7 @@ public class Main {
         orderQueue.processNext().ifPresent(System.out::println);
 
         System.out.println("\nWartosc zamowienia ORD-001: " + orderService.calculateTotal(order1));
-        System.out.println("Brakujace produkty w ORD-001: " + orderService.findUnvailableSkus(order1));
+        System.out.println("Brakujace produkty w ORD-001: " + orderService.findUnavailableSkus(order1));
         System.out.println("Liczba produktow w oczekujacych zamowieniach:");
         System.out.println(orderService.countProductsInPendingOrders());
 

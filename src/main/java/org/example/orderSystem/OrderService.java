@@ -34,7 +34,7 @@ public class OrderService {
         return total.subtract(discountAmount);
     }
 
-    public Set<String> findUnvailableSkus(Order o) {
+    public Set<String> findUnavailableSkus(Order o) {
         Set<String> unvailable = new HashSet<>();
 
         for (String sku : o.skus()) {
