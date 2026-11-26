@@ -24,8 +24,9 @@ public class PriceCalculator {
         DecimalFormat formatter = new DecimalFormat("#,##0.00", symbols);
         return formatter.format(price) + " zł";};
 
-    public static final Function<Product, String> fullPriceLabel = BASE_PRICE.andThen(WITH_VAT).andThen(WITH_SHIPPING).
-            andThen(FORMAT);
+    public static final Function<Product, String> fullPriceLabel(BigDecimal percent) {
+        return BASE_PRICE.andThen(WITH_VAT).andThen(discount(percent)).andThen(WITH_SHIPPING).andThen(FORMAT);
+    }
 
     public static final Function<BigDecimal, BigDecimal> discount(BigDecimal percent) {
         BigDecimal multiplier = BigDecimal.ONE.subtract(percent.divide(new BigDecimal("100")));

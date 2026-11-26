@@ -1,6 +1,4 @@
 package org.example.functional;
-
-import javax.swing.*;
 import java.math.BigDecimal;
 
 @FunctionalInterface

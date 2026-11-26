@@ -24,13 +24,11 @@ public class Main {
                 forEach(System.out::println);
 
         System.out.println("Cena produktu z VAT i wysyłką:");
-        products.forEach(product -> System.out.println(product.name() + ": " + PriceCalculator.fullPriceLabel.
-                apply(product)));
+        products.forEach(product -> System.out.println(product.name() + ": " + PriceCalculator.
+                fullPriceLabel(new BigDecimal("10")).apply(product)));
 
         System.out.println("Cena po rabacie 10%:");
         BigDecimal discountedPrice = PriceCalculator.discount(new BigDecimal("10")).apply(new BigDecimal("200"));
-        System.out.println(PriceCalculator.FORMAT.apply(discountedPrice));
-
         System.out.println(PriceCalculator.FORMAT.apply(discountedPrice));
 
         DiscountPolicy premiumDiscount = order -> order.customer().premium() ? order.items().stream().

@@ -23,7 +23,7 @@ public class ProductFilters {
     }
 
     public static Predicate<Product> priceBetween(BigDecimal min, BigDecimal max) {
-        return product -> product.price().compareTo(min) >= 0 && product.price().compareTo(max) <0;
+        return product -> product.price().compareTo(min) >= 0 && product.price().compareTo(max) < 0;
     }
 
     public static Predicate<Product> stockAtLeast(int min) {
